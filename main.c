@@ -61,7 +61,7 @@ void initiate_bingo(int[N][] input)
 	
 	for(int i = 0; i < N ; i++)
 		for(int j = 0; j <N ; j++) {
-		input_number = random%N*N + 1;
+		input_number = random%(N*N) + 1;
 		double_checking(input,input_number);
 		input[i][j] = input_number;
 		}	
@@ -116,14 +116,59 @@ int get_number_byCom(int[N][] Com_bingo) {
 
 int process_bingo(int[N][] input, int x){
 	
+	for(int i=0;i<N;i++)
+		for(int j=0;j<N;j++)
+		if(input[i][j]==x)
+			input[i][j] = -1;
 }
 
 int count_bingo(int[N][] input) {
 	
+	int line = 0;
+	int is_same = 0;
+	
+	for(int i=0;i<N;i++) {
+		for(int j=0;j<N;j++)
+			if(input[i][j]==-1)
+				is_same++;
+		if(is_same==N)
+			line++;
+		is_same=0;
+	}
+	
+	for(int i=0;i<N;i++) {
+		for(int j=0;j<N;j++)
+			if(input[j][i]==-1)
+				is_same++;
+		if(is_same==N)
+			line++;
+		is_same=0;
+	}
+	
+	for(int i=0;i<N;i++)
+		if(input[i][i]==-1)
+			is_same++;
+	if(is_same==N)
+			line++;
+			is_same=0;
+			
+	for(int i=0;i<N;i++)
+		if(input[i][N-1-i]==-1)
+			is_same++;
+	if(is_same==N)
+			line++;
+	
+	return line;
 }
 
 int double_checking (int[N][] input, int x) {
 	
+	for(int i = 0; i<N; i++)
+		for(int j = 0; j<N; j++)
+			if(input[i][j] == x)
+			return 0;
+			
+	return 1;
 }
 
 
