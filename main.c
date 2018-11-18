@@ -15,26 +15,25 @@ int process_bingo(int input [N][N], int x); //선택된 숫자를 입력받아서 빙고 테이
 int count_bingo(int input [N][N]); //빙고 테이블이 채운 가로/세로/대각선 줄 수를 계산해서 반환
 int double_checking(int input [N][N], int x); //
 
-int User[N][N] = { NULL };
-int Com[N][N] = { NULL };
+int User[N][N] = {0};
+int Com[N][N] = {0};
 
-int main(int argc, char *argv[])
-{
+void main(int argc, char *argv[]) {
    srand(time(NULL));
    int turn = 1;
    int get_integer = 0;
-   char winner[5] = { NULL };
+   char winner[5] = {0};
 
    initiate_bingo(User);
    initiate_bingo(Com);
-   print_bingo(User);
 
-   while (1)
-   {
-      int bingo_counting = 0;
+   while (1) {
+   	   print_bingo(User);
 
-      get_integer = get_number_byMe();
-      process_bingo(User, get_integer);
+    int bingo_counting = 0;
+
+    get_integer = get_number_byMe();
+    process_bingo(User, get_integer);
       bingo_counting = count_bingo(User);
       if (bingo_counting == M) {
          strcpy(winner, "User");
@@ -49,9 +48,11 @@ int main(int argc, char *argv[])
       }
 
       turn++;
+      
+      system("cls");
    }
    printf("승리자는 %s 이며, %d번만큼의 turn이 지났습니다.", winner, turn);
-
+	system("pause");
 }
 
 void initiate_bingo(int input [N][N])
@@ -63,9 +64,13 @@ void initiate_bingo(int input [N][N])
    	
 	for (i = 0; i < N; i++){
       for (j = 0; j <N; j++) {
-         input_number = rand() % (N*N) + 1;
-         double_checking(input, input_number);
-         input[i][j] = input_number;
+      	while(1){
+        	input_number = rand() % (N*N) + 1;
+        	if(double_checking(input, input_number)){
+        		input[i][j] = input_number;
+        		break;
+			}
+		}
       }
   }
 }
@@ -83,7 +88,7 @@ void print_bingo(int input [N][N])
 
 int get_number_byMe() {
 
-   char number[5] = { NULL };
+   char number[5] = {0};
    int integer_number = 0;
    printf("\n숫자를 입력하세요: ");
 
@@ -109,13 +114,13 @@ int get_number_byMe() {
 
 int get_number_byCom(int Com_bingo [N][N]) {
 
-   int random_number = -1;
+	int random_number = -1;
 
-      while (1) {
-         random_number = Com_bingo[rand()%N][rand()%N];
-         if (random_number != -1)
-            break;
-      }
+    while (1) {
+        random_number = Com_bingo[rand()%N][rand()%N];
+    	if (random_number != -1)
+    		break;
+    }
 
    return random_number;
 }
