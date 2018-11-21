@@ -116,11 +116,11 @@ void print_bingo(int input[N][N]) {
 //사용자가 빙고판의 숫자 선택하는 함수 
 int get_number_byMe() { //사용자의 숫자 입력 
 	int number = 0;
-	printf("\n숫자를 입력하세요: ");
+	printf("\n숫자를 선택하세요: ");
 	while (1) {
 		scanf("%d", &number); //입력 받음 
 		rewind(stdin); //버퍼를 비움 
-		if (!(double_checking(User, number))) //사용자의 빙고판에 중복된 숫자인지 체크 
+		if (!(double_checking(User, number))) //이미 선택되었거나 범위 밖의 숫자를 선택하였는지 확인 
 		         break;
 		printf("\n다른 숫자를 입력하세요: ");
 	}
