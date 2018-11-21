@@ -19,7 +19,7 @@ int process_bingo(int input[N][N], int x);
 int count_bingo(int input[N][N]);
 //빙고 테이블이 채운 가로/세로/대각선 줄 수를 계산해서 반환
 int double_checking(int input[N][N], int x);
-//빙고 판에 같은 숫자가 있는지 확인 
+//이미 선택되었거나 범위 밖의 숫자를 선택하였는지 확인 (오류 확인) 
 int User[N][N]={0};
 int Com[N][N]={0};
 
@@ -52,19 +52,19 @@ void main(int argc, char *argv[]) {
          break; //사용자나 컴퓨터가 빙고줄을 M개 완성 하여 승리하면 게임 종료 
 
       get_integer = get_number_byCom(Com); //컴퓨터가 숫자 입력 
-      process_bingo(User, get_integer);
-      process_bingo(Com, get_integer);  
+      process_bingo(User, get_integer); //사용자의 빙고테이블에서 사용자가 입력한 숫자가 -1로 바뀌게함
+      process_bingo(Com, get_integer); //컴퓨터의 빙고테이블에서 컴퓨터가 입력한 숫자가 -1로 바뀌게함 
    
       bingo_counting = count_bingo(User);
       if (bingo_counting == M)
-         user_win = 1;
+         user_win = 1; //사용자의 빙고줄이 M개이면 사용자 승
 
       bingo_counting = count_bingo(Com);
       if (bingo_counting == M)
-         com_win = 1; 
+         com_win = 1; // 컴퓨터의 빙고줄이 M개이면 컴퓨터 승 
 
       if (user_win == 1 || com_win == 1)
-         break;
+         break; //사용자나 컴퓨터가 빙고줄을 M개 완성 하여 승리하면 게임 종료 
 
       turn++; // 게임에서 위 과정이 한번 반복될때마다 turn수 증가 
       system("cls");
@@ -182,7 +182,7 @@ int count_bingo(int input[N][N]) {
 	return line; //빙고줄의 갯수 반환 
 }
 
-//빙고 판에 같은 숫자가 있는지 확인하는 함수 
+//이미 선택되었거나 범위 밖의 숫자를 선택하였는지 확인 위한  함수 (오류 확인) 
 int double_checking(int input[N][N], int x) {
 	int i, j;
 	for (i = 0; i<N; i++)
