@@ -2,15 +2,16 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
-/* run this program using the console pauser or add your own getch, system("pause") or input loop */
-#define N 4
+
+#define N 5
 #define M 3
+
 void initiate_bingo(int input[N][N]);
-//빙고 테이블을 초기에 만들어줌
+//빙고 테이블을 초기에 만들어줌 
 void print_bingo(int input[N][N]);
 //빙고 테이블 현재 상황을 화면에 출력 
 int get_number_byMe();
-//내가 빙고 번호 입력 선택 
+//시용자가 빙고 번호 입력 선택 
 int get_number_byCom(int Com_bingo[N][N]);
 //컴퓨터가 임의로 빙고 번호 선택 
 int process_bingo(int input[N][N], int x);
@@ -29,8 +30,8 @@ void main(int argc, char *argv[]) {
    int user_win = 0;
    int com_win = 0;
 
-   initiate_bingo(User); // 사용자의 빙고테이블을 만들어줌 
-   initiate_bingo(Com); // 컴퓨터의 빙고테이블을 만들어줌 
+   initiate_bingo(User); // 사용자의 빙고테이블 초기화 
+   initiate_bingo(Com); // 컴퓨터의 빙고테이블 초기화 
    while (1) {
       printf("<User's bingo>\n");
       print_bingo(User); // 사용자의 빙고테이블 현재 상황 출력 
@@ -92,7 +93,7 @@ void initiate_bingo(int input[N][N]) {
 	for (i = 0; i < N; i++) {
 		for (j = 0; j <N; j++) {
 			while (1) {
-				input_number = rand() % (N*N) + 1; // 1부터 N까지 숫자를 빙고판에 랜덤으로 채워넣음 
+				input_number = rand() % (N*N) + 1; // 1부터 N*N까지 숫자를 빙고판에 랜덤으로 채워넣음 
 				if (double_checking(input, input_number)) {
 					input[i][j] = input_number;
 					break; //빙고판에 중복되는 숫자 있는지 확인 
