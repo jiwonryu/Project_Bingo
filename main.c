@@ -18,65 +18,70 @@ int process_bingo(int input[N][N], int x);
 int count_bingo(int input[N][N]);
 //빙고 테이블이 채운 가로/세로/대각선 줄 수를 계산해서 반환
 int double_checking(int input[N][N], int x);
-//
-int User[N][N] = {
-	0
-}
-;
-int Com[N][N] = {
-	0
-}
-;
+//빙고 판에 같은 숫자가 있는지 확인 
+int User[N][N]={0};
+int Com[N][N]={0};
+
 void main(int argc, char *argv[]) {
-	srand(time(NULL));
-	int turn = 1;
-	int get_integer = 0;
-	char winner[5] = {
-		0
-	}
-	;
-	initiate_bingo(User);
-	initiate_bingo(Com);
-	while (1) {
-		printf("<User's bingo>\n");
-		print_bingo(User);
-		int bingo_counting = 0;
-		get_integer = get_number_byMe();
-		process_bingo(User, get_integer);
-		process_bingo(Com, get_integer);
-		bingo_counting = count_bingo(User);
-		if (bingo_counting == M) {
-			strcpy(winner, "User");
-			break;
-		}
-		bingo_counting = count_bingo(Com);
-		if (bingo_counting == M) {
-			strcpy(winner, "Computer");
-			break;
-		}
-		get_integer = get_number_byCom(Com);
-		process_bingo(User, get_integer);
-		process_bingo(Com, get_integer);
-		bingo_counting = count_bingo(User);
-		if (bingo_counting == M) {
-			strcpy(winner, "User");
-			break;
-		}
-		bingo_counting = count_bingo(Com);
-		if (bingo_counting == M) {
-			strcpy(winner, "Computer");
-			break;
-		}
-		turn++;
-		system("cls");
-	}
-	system("cls");
-	printf("<User's Bingo>\n");
-	print_bingo(User);
-	printf("\n<Computer's Bingo>\n");
-	print_bingo(Com);
-	printf("\n승리자는 %s 이며, %d번만큼의 turn이 지났습니다.\n\n", winner, turn);
-	system("pause");
+   srand(time(NULL));
+   int turn = 1;
+   int get_integer = 0;
+   int user_win = 0;
+   int com_win = 0;
+
+   initiate_bingo(User);
+   initiate_bingo(Com);
+   while (1) {
+      printf("<User's bingo>\n");
+      print_bingo(User);
+      int bingo_counting = 0;
+      get_integer = get_number_byMe();
+      process_bingo(User, get_integer);
+      process_bingo(Com, get_integer);
+
+      bingo_counting = count_bingo(User);
+      if (bingo_counting == M)
+         user_win = 1;
+
+      bingo_counting = count_bingo(Com);
+      if (bingo_counting == M)
+         com_win = 1;
+
+      if (user_win ==1 || com_win == 1)
+         break;
+
+      get_integer = get_number_byCom(Com);
+      process_bingo(User, get_integer);
+      process_bingo(Com, get_integer);
+   
+      bingo_counting = count_bingo(User);
+      if (bingo_counting == M)
+         user_win = 1;
+
+      bingo_counting = count_bingo(Com);
+      if (bingo_counting == M)
+         com_win = 1;
+
+      if (user_win == 1 || com_win == 1)
+         break;
+
+      turn++;
+      system("cls");
+   }
+   system("cls");
+   printf("<User's Bingo>\n");
+   print_bingo(User);
+   printf("\n<Computer's Bingo>\n");
+   print_bingo(Com);
+   if(user_win == 1 && com_win == 1)
+      printf("게임에서 비겼으며, %d번만큼의 turn이 지났습니다.\n", turn);
+   else if(com_win == 1)
+      printf("승리자는 Computer 이며, %d번만큼의 turn이 지났습니다.\n", turn);
+   else 
+      printf("승리자는 User 이며, %d번만큼의 turn이 지났습니다.\n", turn);
+   
+
+   system("pause");
 }
 void initiate_bingo(int input[N][N]) {
 	int input_number = 1;
@@ -103,29 +108,15 @@ void print_bingo(int input[N][N]) {
 	}
 }
 int get_number_byMe() {
-	//char number[5];
 	int number = 0;
-	//int integer_number = 0;
 	printf("\n숫자를 입력하세요: ");
 	while (1) {
-		/*scanf("%s", number);
-      rewind(stdin);
-      int i = 0;
-      for (;i != '\0';i++)
-         if (!(number[i] >= '0' && number[i] <= '9'))
-            break;
-      if (number[i] == '\0') {
-         integer_number = atoi(number);
-         if (double_checking(User, integer_number))
-            break;
-      }*/
 		scanf("%d", &number);
 		rewind(stdin);
 		if (!(double_checking(User, number)))
 		         break;
 		printf("\n다른 숫자를 입력하세요: ");
 	}
-	//return integer_number;
 	return number;
 }
 int get_number_byCom(int Com_bingo[N][N]) {
